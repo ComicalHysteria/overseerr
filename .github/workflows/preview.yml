@@ -41,4 +41,4 @@ jobs:
             COMMIT_TAG=${{ github.sha }}
           tags: |
             comicalhysteria/overseerr:${{ steps.get_version.outputs.VERSION }}
-            ghcr.io/sct/comicalhysteria:${{ steps.get_version.outputs.VERSION }}
+            ghcr.io/comicalhysteria/overseerr:${{ steps.get_version.outputs.VERSION }}
