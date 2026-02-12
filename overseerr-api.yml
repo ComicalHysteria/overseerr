@@ -5922,6 +5922,51 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/User'
+  /redownload/{mediaId}:
+    post:
+      summary: Re-download media
+      description: Triggers a re-download for the media item via Radarr or Sonarr.
+      tags:
+        - media
+      parameters:
+        - in: path
+          name: mediaId
+          description: Media ID
+          required: true
+          example: '1'
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                is4k:
+                  type: boolean
+                  example: false
+                seasons:
+                  type: array
+                  items:
+                    type: number
+                episodeIds:
+                  type: array
+                  items:
+                    type: number
+      responses:
+        '200':
+          description: Re-download initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Series re-download initiated.
   /collection/{collectionId}:
     get:
       summary: Get collection details

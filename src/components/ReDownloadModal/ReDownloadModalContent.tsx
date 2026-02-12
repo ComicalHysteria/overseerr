@@ -1,7 +1,7 @@
 import Modal from '@app/components/Common/Modal';
 import { RadioGroup } from '@headlessui/react';
 import type { MovieDetails } from '@server/models/Movie';
-import type { TvDetails, SeasonWithEpisodes } from '@server/models/Tv';
+import type { SeasonWithEpisodes, TvDetails } from '@server/models/Tv';
 import axios from 'axios';
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
@@ -99,7 +99,14 @@ const ReDownloadModalContent = ({
         // For 'series', we don't add any additional fields
       }
 
-      await axios.post(`/api/v1/media/${mediaId}/redownload`, payload);
+      try {
+        await axios.post(`/api/v1/redownload/${mediaId}`, payload);
+      } catch (e) {
+        throw new Error(
+          e.response?.data?.message ||
+            'Failed to initiate re-download. Please try again.'
+        );
+      }
 
       let successMessage = messages.toastSuccessMovie;
       if (mediaType === 'tv') {
@@ -250,7 +257,7 @@ const ReDownloadModalContent = ({
                           ))}
                         </select>
                         {seasonData && (
-                          <div className="max-h-48 overflow-y-auto space-y-1">
+                          <div className="max-h-48 space-y-1 overflow-y-auto">
                             {seasonData.episodes.map((episode) => (
                               <label
                                 key={episode.id}
@@ -258,7 +265,9 @@ const ReDownloadModalContent = ({
                               >
                                 <input
                                   type="checkbox"
-                                  checked={selectedEpisodes.includes(episode.id)}
+                                  checked={selectedEpisodes.includes(
+                                    episode.id
+                                  )}
                                   onChange={() => toggleEpisode(episode.id)}
                                   className="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500"
                                 />
