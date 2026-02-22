@@ -5,10 +5,20 @@
     "module": "commonjs",
     "outDir": "../dist",
     "noEmit": false,
+    "sourceMap": true,
+    "inlineSourceMap": false,
     "baseUrl": ".",
     "paths": {
       "@server/*": ["*"]
     }
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "sourceMap": true
+    },
+    "transpileOnly": true,
+    "files": true
+  }
 }

@@ -1,0 +1,144 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Install dependencies",
+      "type": "shell",
+      "command": "yarn",
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Start Next.js Dev Server",
+      "type": "shell",
+      "command": "yarn",
+      "args": ["run", "dev"],
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*error.*$",
+          "line": 0
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "ready - started server on",
+          "endsPattern": "ready - started server on"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Build Backend",
+      "type": "shell",
+      "command": "yarn",
+      "args": ["run", "build:server"],
+      "isBackground": false,
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Build Frontend",
+      "type": "shell",
+      "command": "yarn",
+      "args": ["run", "build:next"],
+      "isBackground": false,
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Build Everything",
+      "type": "shell",
+      "command": "yarn",
+      "args": ["run", "build"],
+      "isBackground": false,
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
+      "label": "Lint Code",
+      "type": "shell",
+      "command": "yarn",
+      "args": ["run", "lint"],
+      "isBackground": false,
+      "problemMatcher": ["$eslint-stylish"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": {
+        "kind": "test"
+      }
+    },
+    {
+      "label": "Type Check",
+      "type": "shell",
+      "command": "yarn",
+      "args": ["run", "typecheck"],
+      "isBackground": false,
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Format Code",
+      "type": "shell",
+      "command": "yarn",
+      "args": ["run", "format"],
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Wait for Server Ready",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "for i in {1..60}; do curl -s http://localhost:5055 > /dev/null && echo 'Server ready!' && exit 0; sleep 1; done; echo 'Server timeout'; exit 1"
+      ],
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent"
+      }
+    },
+    {
+      "label": "Start Production Server",
+      "type": "shell",
+      "command": "NODE_ENV=production node",
+      "args": ["dist/index.js"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ]
+}

@@ -205,6 +205,18 @@ class RadarrAPI extends ServarrBase<{ movieId: number }> {
     }
   };
 
+  public async updateMovie(movie: RadarrMovie): Promise<RadarrMovie> {
+    try {
+      const response = await this.axios.put<RadarrMovie>(
+        `/movie/${movie.id}`,
+        movie
+      );
+      return response.data;
+    } catch (e) {
+      throw new Error(`[Radarr] Failed to update movie: ${e.message}`);
+    }
+  }
+
   public async searchMovie(movieId: number): Promise<void> {
     logger.info('Executing movie search command', {
       label: 'Radarr API',

@@ -1,0 +1,11 @@
+{
+  "watch": ["server", "overseerr-api.yml"],
+  "ext": "ts,js,json,yml",
+  "ignore": ["server/**/*.test.ts", "dist/"],
+  "exec": "ts-node -r tsconfig-paths/register --files --project server/tsconfig.json",
+  "args": "server/index.ts",
+  "nodeArgs": ["--inspect-brk=9229"],
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

@@ -7,6 +7,7 @@
     "typescriptreact"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
   "sqltools.connections": [
     {
       "previewLimit": 50,
@@ -20,5 +21,19 @@
   "files.associations": {
     "globals.css": "tailwindcss"
   },
-  "i18n-ally.localesPaths": ["src/i18n/locale"]
+  "i18n-ally.localesPaths": ["src/i18n/locale"],
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "debug.node.autoAttach": "off",
+  "debug.javascript.usePreviewJs": false
 }

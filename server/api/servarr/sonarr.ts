@@ -298,6 +298,45 @@ class SonarrAPI extends ServarrBase<{
     }
   }
 
+  public async getEpisodes(seriesId: number): Promise<EpisodeResult[]> {
+    try {
+      const response = await this.axios.get<EpisodeResult[]>('/episode', {
+        params: { seriesId },
+      });
+      return response.data;
+    } catch (e) {
+      throw new Error(`[Sonarr] Failed to retrieve episodes: ${e.message}`);
+    }
+  }
+
+  public async updateSeries(series: SonarrSeries): Promise<SonarrSeries> {
+    try {
+      const response = await this.axios.put<SonarrSeries>(
+        `/series/${series.id}`,
+        series
+      );
+      return response.data;
+    } catch (e) {
+      throw new Error(`[Sonarr] Failed to update series: ${e.message}`);
+    }
+  }
+
+  public async monitorEpisodes(
+    episodeIds: number[],
+    monitored: boolean
+  ): Promise<void> {
+    try {
+      await this.axios.put('/episode/monitor', {
+        episodeIds,
+        monitored,
+      });
+    } catch (e) {
+      throw new Error(
+        `[Sonarr] Failed to update episode monitoring: ${e.message}`
+      );
+    }
+  }
+
   public async searchSeries(seriesId: number): Promise<void> {
     logger.info('Executing series search command.', {
       label: 'Sonarr API',
@@ -370,12 +409,9 @@ class SonarrAPI extends ServarrBase<{
     });
 
     try {
-      const response = await this.axios.get<{ id: number }[]>(
-        `/episodeFile`,
-        {
-          params: { seriesId },
-        }
-      );
+      const response = await this.axios.get<{ id: number }[]>(`/episodeFile`, {
+        params: { seriesId },
+      });
       return response.data.map((file: { id: number }) => file.id);
     } catch (e) {
       logger.error('Failed to get episode files from Sonarr', {
